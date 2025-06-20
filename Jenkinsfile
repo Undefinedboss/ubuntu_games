@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Undefinedboss/World-of-Games'
+                git branch: 'main', url: 'https://github.com/Undefinedboss/World-of-Games'
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
         stage('Finalize') {
             steps {
                 bat 'docker-compose down'
-                // Optional: docker push command if DockerHub credentials are configured
+                // Uncomment and configure DockerHub credentials if needed
                 // bat 'docker tag world-of-games yourdockerhubusername/world-of-games:latest'
                 // bat 'docker push yourdockerhubusername/world-of-games:latest'
             }
