@@ -28,7 +28,7 @@ pipeline {
                     def success = false
                     for (int i = 0; i < maxRetries; i++) {
                         try {
-                            sh "curl -s http://localhost:8777"
+                            sh 'curl -sf http://localhost:8777 > /dev/null'
                             success = true
                             break
                         } catch (Exception e) {
@@ -46,10 +46,10 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                   python3 -m venv myenv
-                   . myenv/bin/activate
-                   pip install --upgrade pip selenium
-                   python e2e.py
+                    python3 -m venv myenv &&
+                    . myenv/bin/activate &&
+                    pip install --upgrade pip selenium &&
+                    python e2e.py
                 '''
             }
         }
