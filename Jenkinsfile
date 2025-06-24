@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Undefinedboss/ubuntu_games'
+                git branch: 'main', url: 'https://github.com/Undefinedboss/ubuntu_games'
             }
         }
 
         stage('Build') {
             steps {
-                sh './build.sh'
+                sh 'chmod +x build.sh && ./build.sh'
             }
         }
 
