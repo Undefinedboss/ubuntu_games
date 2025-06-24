@@ -4,9 +4,6 @@ services:
   world_of_games2:
     build: .
     ports:
-      ports:
-  - "${APP_PORT:-8777}:8777"
-
+      - "${APP_PORT:-8777}:8777"
     volumes:
       - ./Scores.txt:/app/Scores.txt:ro
-
