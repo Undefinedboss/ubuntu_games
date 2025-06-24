@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh '''
                    python3 -m venv myenv
-                   source myenv/bin/activate
+                   . myenv/bin/activate
                    pip install --upgrade pip
                    pip install selenium
                    python e2e.py
