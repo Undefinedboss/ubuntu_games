@@ -17,7 +17,29 @@ pipeline {
         stage('Run') {
             steps {
                 sh 'docker compose up -d'
-                sleep(time: 10, unit: "SECONDS")
+            }
+        }
+
+        stage('Wait for app') {
+            steps {
+                script {
+                    def maxRetries = 10
+                    def waitTime = 5
+                    def success = false
+                    for (int i = 0; i < maxRetries; i++) {
+                        try {
+                            sh "curl -s http://localhost:YOUR_APP_PORT_HERE"
+                            success = true
+                            break
+                        } catch (Exception e) {
+                            echo "App not ready yet, retrying in ${waitTime}s..."
+                            sleep waitTime
+                        }
+                    }
+                    if (!success) {
+                        error "App did not become ready in time"
+                    }
+                }
             }
         }
 
@@ -26,17 +48,17 @@ pipeline {
                 sh '''
                    python3 -m venv myenv
                    . myenv/bin/activate
-                   pip install --upgrade pip
-                   pip install selenium
+                   pip install --upgrade pip selenium
                    python e2e.py
                 '''
             }
         }
+    }
 
-        stage('Finalize') {
-            steps {
-                sh 'docker-compose down'
-            }
+    post {
+        always {
+            sh 'docker-compose down'
         }
     }
 }
+
