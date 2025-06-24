@@ -16,7 +16,7 @@ pipeline {
 
         stage('Run') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker compose up -d'
                 sleep(time: 10, unit: "SECONDS")
             }
         }
