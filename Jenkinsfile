@@ -28,7 +28,7 @@ pipeline {
                     def success = false
                     for (int i = 0; i < maxRetries; i++) {
                         try {
-                            sh "curl -s http://localhost:YOUR_APP_PORT_HERE"
+                            sh "curl -s http://localhost:8777"
                             success = true
                             break
                         } catch (Exception e) {
