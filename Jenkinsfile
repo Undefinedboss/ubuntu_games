@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Undefinedboss/World-of-Games'
+                git 'https://github.com/Undefinedboss/ubuntu_games'
             }
         }
 
