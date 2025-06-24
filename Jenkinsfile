@@ -23,8 +23,8 @@ pipeline {
         stage('Wait for app') {
             steps {
                 script {
-                    def maxRetries = 10
-                    def waitTime = 5
+                    def maxRetries = 20
+                    def waitTime = 6
                     def success = false
                     for (int i = 0; i < maxRetries; i++) {
                         try {
