@@ -17,19 +17,20 @@ pipeline {
         stage('Run') {
             steps {
                 sh 'docker compose up -d'
-                sleep(time: 10, unit: "SECONDS")
+                sleep(time: 10, unit: 'SECONDS')
             }
         }
 
         stage('Test') {
             steps {
+                sh 'pip3 install selenium'
                 sh 'python3 e2e.py'
             }
         }
 
         stage('Finalize') {
             steps {
-                sh 'docker-compose down'
+                sh 'docker compose down'
             }
         }
     }
