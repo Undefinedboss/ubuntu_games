@@ -9,13 +9,6 @@ pipeline {
             }
         }
 
-        stage('Build on Windows') {
-            agent { label 'windows' }
-            steps {
-                bat 'build.bat'
-            }
-        }
-
         stage('Build on Linux') {
             agent { label 'linux' }
             steps {
