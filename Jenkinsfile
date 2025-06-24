@@ -1,38 +1,50 @@
 pipeline {
-    agent any
+    agent none  // Use per-stage agents instead of one global agent
 
     stages {
         stage('Checkout') {
+            agent any  // Can be run on any node
             steps {
                 git 'https://github.com/Undefinedboss/World-of-Games'
             }
         }
 
-        stage('Build') {
+        stage('Build on Windows') {
+            agent { label 'windows' }
             steps {
                 bat 'build.bat'
             }
         }
 
-        stage('Run') {
+        stage('Build on Linux') {
+            agent { label 'linux' }
             steps {
-                bat 'docker-compose up -d'
-                sleep(time: 10, unit: "SECONDS") // Wait for the app to start
+                sh './build.sh'
             }
         }
 
-        stage('Test') {
+        stage('Run on Linux') {
+            agent { label 'linux' }
             steps {
-                bat 'python e2e.py'
+                sh 'docker-compose up -d'
+                sleep(time: 10, unit: 'SECONDS')
             }
         }
 
-        stage('Finalize') {
+        stage('Test on Linux') {
+            agent { label 'linux' }
             steps {
-                bat 'docker-compose down'
-                // Optional: docker push command if DockerHub credentials are configured
-                // bat 'docker tag world-of-games yourdockerhubusername/world-of-games:latest'
-                // bat 'docker push yourdockerhubusername/world-of-games:latest'
+                sh 'python3 e2e.py'
+            }
+        }
+
+        stage('Finalize on Linux') {
+            agent { label 'linux' }
+            steps {
+                sh 'docker-compose down'
+                // Optional: push to DockerHub
+                // sh 'docker tag world-of-games yourdockerhubusername/world-of-games:latest'
+                // sh 'docker push yourdockerhubusername/world-of-games:latest'
             }
         }
     }
